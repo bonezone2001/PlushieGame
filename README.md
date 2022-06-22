@@ -1,2 +1,2 @@
 # PlushieGame
-Lols
+Cool Plushie Golf Game
