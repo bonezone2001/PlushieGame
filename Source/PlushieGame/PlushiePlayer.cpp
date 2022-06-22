@@ -17,6 +17,7 @@ APlushiePlayer::APlushiePlayer()
 
 	// Create mesh
 	playerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	SetRootComponent(playerMesh);
 	//playerMesh->SetupAttachment(RootComponent);
 
 	// Default zoom
