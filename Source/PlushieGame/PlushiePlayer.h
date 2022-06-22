@@ -23,6 +23,16 @@ class PLUSHIEGAME_API APlushiePlayer : public APawn
 	UPROPERTY(VisibleDefaultsOnly, Category = "Player")
 	class UCameraComponent* camera;
 
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	float minZoom;
+
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	float maxZoom;
+
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	float zoomSpeed;
+
+
 public:
 	// Sets default values for this pawn's properties
 	APlushiePlayer();

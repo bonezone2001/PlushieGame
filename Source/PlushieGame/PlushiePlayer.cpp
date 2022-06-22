@@ -12,9 +12,17 @@ APlushiePlayer::APlushiePlayer()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create root component
+	//RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("PlushieRoot"));
+
 	// Create mesh
 	playerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	SetRootComponent(playerMesh);
+	//playerMesh->SetupAttachment(RootComponent);
+
+	// Default zoom
+	minZoom = 150.0f;
+	maxZoom = 400.0f;
+	zoomSpeed = 25.f;
 
 	// Create boom arm
 	springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -67,7 +75,7 @@ void APlushiePlayer::TurnYaw(float value)
 
 void APlushiePlayer::Zoom(float value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Zoom: %f"), value);
+	springArm->TargetArmLength = FMath::Clamp(springArm->TargetArmLength + value * zoomSpeed, minZoom, maxZoom);
 }
 
 void APlushiePlayer::TogglePower()
