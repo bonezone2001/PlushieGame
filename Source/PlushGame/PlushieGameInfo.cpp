@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+// File needs to be refactored at some point
 
 #include "PlushieGameInfo.h"
 #include "Components/PanelWidget.h"
@@ -136,6 +136,7 @@ void UPlushieGameInfo::OnCreateSessionComplete(const FName SessionName, const bo
 	if (!WasSuccessful)
 	{
 		DisplayErrorMessage("We Were Unable to Create the Session. Please Try Again.");
+		OnSessionCreatedDelegate.Broadcast(SessionName, WasSuccessful);
 		return;
 	}
 	
@@ -149,6 +150,7 @@ void UPlushieGameInfo::OnCreateSessionComplete(const FName SessionName, const bo
 
 void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 {
+	TArray<FBlueprintSessionResult> BlueprintResults;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete bSuccess: %d"), WasSuccessful));
 
 	auto SearchResults = SessionSearch->SearchResults;
@@ -156,6 +158,7 @@ void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 	if (SearchResults.Num() == 0)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Search Results")));
+		OnSessionsFoundDelegate.Broadcast(BlueprintResults, WasSuccessful);
 		return;
 	}
 
@@ -164,7 +167,6 @@ void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Session Number: %d | Sessionname: %s "), SearchIdx + 1, *(SessionSearch->SearchResults[SearchIdx].Session.OwningUserName)));
 
 	// Convert to blueprint session result
-	TArray<FBlueprintSessionResult> BlueprintResults;
 	for (auto& SearchResult : SearchResults)
 	{
 		FBlueprintSessionResult Result;
@@ -185,6 +187,7 @@ void UPlushieGameInfo::OnJoinSessionComplete(const FName SessionName, const EOnJ
 	{
 		DisplayErrorMessage("We Were Unable to Join the Session. Please Try Again.");
 		UE_LOG(LogOnline, Warning, TEXT("Failed to join session %s"), *SessionName.ToString());
+		OnSessionJoinedDelegate.Broadcast(SessionName, Result);
 		return;
 	}
 
@@ -196,6 +199,7 @@ void UPlushieGameInfo::OnJoinSessionComplete(const FName SessionName, const EOnJ
 	if (ConnectString.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to get connection information from client!"));
+		OnSessionJoinedDelegate.Broadcast(SessionName, Result);
 		return;
 	}
 
