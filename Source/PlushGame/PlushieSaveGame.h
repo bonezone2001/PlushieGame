@@ -19,6 +19,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Replicated, Category = "SaveGame")
 	FPlayerInfo PlayerInfo;
 
-private:
+protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

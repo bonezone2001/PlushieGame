@@ -4,9 +4,8 @@
 
 #include "ServerSettings.generated.h"
 
-/**
- * 
- */
+// Server settings replicated to all clients
+// Not the same as session settings
 USTRUCT(BlueprintType)
 struct FServerSettings
 {
