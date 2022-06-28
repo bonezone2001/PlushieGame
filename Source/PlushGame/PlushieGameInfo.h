@@ -104,9 +104,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Networking)
 	bool LaunchLobby(const FName SessionName, const FString MapName, const int32 MaxNumPlayers);
 
-	bool JoinLobbyEx(FName SessionName, const FOnlineSessionSearchResult& SearchResult) const;
+	bool JoinLobbyEx(FName SessionName, const FOnlineSessionSearchResult& SearchResult);
 	UFUNCTION(BlueprintCallable, Category=Networking)
-	bool JoinLobby(FName SessionName, const FBlueprintSessionResult& SearchResult) const;
+	bool JoinLobby(FName SessionName, const FBlueprintSessionResult& SearchResult);
 
 	UFUNCTION(BlueprintCallable, Category=Networking)
 	bool FindSessions();

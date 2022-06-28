@@ -1,0 +1,20 @@
+﻿UI
+1.0.0.0
+
+winexe
+C#
+.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\
+UI
+none
+false
+TRACE;DEBUG;NET;NET6_0;NETCOREAPP
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\App.xaml
+61171186398
+
+4-1820442169
+196-1766320093
+GUI\HostMenu\HostMenuUI.xaml;GUI\MainMenu\MainMenuUI.xaml;GUI\ServerMenu\ServerMenuUI.xaml;GUI\SettingsMenu\SettingsMenuUI.xaml;KylesTemplate.xaml;Resources.xaml;
+
+True
+

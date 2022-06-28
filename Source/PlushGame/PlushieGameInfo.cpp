@@ -35,6 +35,7 @@ void UPlushieGameInfo::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 void UPlushieGameInfo::DisplayErrorMessage(const FString& Message) const
 {
 	// TODO: Implement
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, Message);
 }
 
 void UPlushieGameInfo::ShowMenu(TSubclassOf<UUserWidget> MenuWidgetClass, UUserWidget*& Widget) const
@@ -104,12 +105,12 @@ bool UPlushieGameInfo::LaunchLobby(FName SessionName, FString MapName, int32 Max
 	return Sessions->CreateSession(0, SessionName, SessionSettings);
 }
 
-bool UPlushieGameInfo::JoinLobbyEx(FName SessionName, const FOnlineSessionSearchResult& SearchResult) const
+bool UPlushieGameInfo::JoinLobbyEx(FName SessionName, const FOnlineSessionSearchResult& SearchResult)
 {
 	return Sessions->JoinSession(0, SessionName, SearchResult);
 }
 
-bool UPlushieGameInfo::JoinLobby(FName SessionName, const FBlueprintSessionResult& SearchResult) const
+bool UPlushieGameInfo::JoinLobby(FName SessionName, const FBlueprintSessionResult& SearchResult)
 {
 	return JoinLobbyEx(SessionName, SearchResult.OnlineResult);
 }
@@ -157,7 +158,7 @@ void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 	UE_LOG(LogTemp, Warning, TEXT("Found %d sessions"), SearchResults.Num());
 	if (SearchResults.Num() == 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Search Results")));
+		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Sessions Found")));
 		OnSessionsFoundDelegate.Broadcast(BlueprintResults, WasSuccessful);
 		return;
 	}
