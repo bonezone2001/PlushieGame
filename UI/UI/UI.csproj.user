@@ -7,19 +7,19 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="GUI\ServerMenu\ServerMenuUI.xaml">
+    <Page Update="UI\GUI\ServerMenu\ServerMenuUI.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GUI\HostMenu\HostMenuUI.xaml">
+    <Page Update="UI\GUI\HostMenu\HostMenuUI.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="GUI\SettingsMenu\SettingsMenuUI.xaml">
+    <Page Update="UI\GUI\SettingsMenu\SettingsMenuUI.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources.base.xaml">
+    <Page Update="UI\Resources.base.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources.xaml">
+    <Page Update="UI\Resources.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -73,3 +73,10 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
+# Prevent UI files from being ignored
+!UI/*
+
+# However, ignore the typical stuff in there too
+UI/obj/
+UI/bin/
+UI/.vs/
