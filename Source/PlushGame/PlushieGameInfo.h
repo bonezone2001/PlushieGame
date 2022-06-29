@@ -10,7 +10,7 @@
 #include "PlushieGameInfo.generated.h"
 
 // I know FOnSessionsFound is basically inside of FindSessionsCallbackProxy but I want to pass success/failure as well
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSessionsFound, const TArray<FBlueprintSessionResult>&, Results, bool, WasSuccessful);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSessionsFound, const TArray<FServerSettings>&, Results, bool, WasSuccessful);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSessionCreate, FName, SessionName, bool, WasSuccessful);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSessionJoin, FName, SessionName, int, ReturnCode);
 
@@ -21,10 +21,11 @@ class PLUSHGAME_API UPlushieGameInfo : public UGameInstance
 {
 	GENERATED_BODY()
 
-	IOnlineSessionPtr Sessions;
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
+	class IOnlineSubsystem* OnlineSubsystem;
+	IOnlineSessionPtr SessionInterface;
 
-	UPROPERTY(VisibleAnywhere, Replicated)
+	UPROPERTY(VisibleAnywhere)
 	FServerSettings ServerSettings;
 
 public:

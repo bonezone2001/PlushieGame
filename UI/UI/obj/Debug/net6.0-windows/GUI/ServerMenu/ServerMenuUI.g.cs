@@ -91,7 +91,7 @@ namespace UI.GUI {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/UI;V1.0.0.0;component/gui/servermenu/servermenuui.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/UI;component/gui/servermenu/servermenuui.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\GUI\ServerMenu\ServerMenuUI.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

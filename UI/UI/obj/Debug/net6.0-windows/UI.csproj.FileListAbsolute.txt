@@ -1,0 +1,12 @@
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\UI.csproj.AssemblyReference.cache
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\Resources.baml
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\App.baml
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\GUI\HostMenu\HostMenuUI.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\GUI\MainMenu\MainMenuUI.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\GUI\ServerMenu\ServerMenuUI.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\GUI\SettingsMenu\SettingsMenuUI.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\KylesTemplate.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\UI_MarkupCompile.cache
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\UI_MarkupCompile.lref
+C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs

@@ -11,25 +11,24 @@ void UPlushieGameInfo::Init()
 {
 	Super::Init();
 
-	const IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
-	check(OnlineSub)
+	OnlineSubsystem = IOnlineSubsystem::Get();
+	check(OnlineSubsystem)
 
-	Sessions = OnlineSub->GetSessionInterface();
-	check(Sessions.IsValid())
+	SessionInterface = OnlineSubsystem->GetSessionInterface();
+	check(SessionInterface.IsValid())
 
 	// Delegates
 	GetEngine()->OnNetworkFailure().AddUObject(this, &UPlushieGameInfo::HandleNetworkFailure);
 	GetEngine()->OnTravelFailure().AddUObject(this, &UPlushieGameInfo::HandleTravelFailure);
 
-	Sessions->OnCreateSessionCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnCreateSessionComplete);
-	Sessions->OnFindSessionsCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnFindSessionsComplete);
-	Sessions->OnJoinSessionCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnJoinSessionComplete);
+	SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnCreateSessionComplete);
+	SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnFindSessionsComplete);
+	SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UPlushieGameInfo::OnJoinSessionComplete);
 }
 
 void UPlushieGameInfo::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UPlushieGameInfo, ServerSettings);
 }
 
 void UPlushieGameInfo::DisplayErrorMessage(const FString& Message) const
@@ -89,25 +88,31 @@ bool UPlushieGameInfo::LaunchLobby(FName SessionName, FString MapName, int32 Max
 	FOnlineSessionSettings SessionSettings;
 	SessionSettings.bAllowJoinInProgress = true;
 	SessionSettings.bIsDedicated = false;
-	SessionSettings.bIsLANMatch = false;
+	SessionSettings.bIsLANMatch = true;
+	SessionSettings.bUsesPresence = false;
+	if (OnlineSubsystem->GetSubsystemName() == "Steam")
+	{
+		SessionSettings.bUsesPresence = true;
+		SessionSettings.bIsLANMatch = false;
+		SessionSettings.bUseLobbiesIfAvailable = true;
+	}
 	SessionSettings.bShouldAdvertise = true;
-	SessionSettings.bUseLobbiesIfAvailable = true;
-	SessionSettings.bUsesPresence = true;
 	SessionSettings.NumPublicConnections = MaxNumPlayers;
 
-	// Server settings replicated
-	ServerSettings.Name = SessionName;
-	ServerSettings.MaxPlayers = MaxNumPlayers;
-	ServerSettings.CurrentPlayers = 0;
+	// Server settings
+	ServerSettings.Name = SessionName.ToString();
 	ServerSettings.Map = MapName;
 	ServerSettings.Password = "";
 
-	return Sessions->CreateSession(0, SessionName, SessionSettings);
+	SessionSettings.Set("SERVER_NAME", SessionName.ToString(), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+	SessionSettings.Set("SERVER_MAP", MapName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+
+	return SessionInterface->CreateSession(0, SessionName, SessionSettings);
 }
 
 bool UPlushieGameInfo::JoinLobbyEx(FName SessionName, const FOnlineSessionSearchResult& SearchResult)
 {
-	return Sessions->JoinSession(0, SessionName, SearchResult);
+	return SessionInterface->JoinSession(0, SessionName, SearchResult);
 }
 
 bool UPlushieGameInfo::JoinLobby(FName SessionName, const FBlueprintSessionResult& SearchResult)
@@ -122,12 +127,12 @@ bool UPlushieGameInfo::FindSessions()
 	SessionSearch->MaxSearchResults = 10000;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
-	return Sessions->FindSessions(0, SessionSearch.ToSharedRef());
+	return SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 }
 
 bool UPlushieGameInfo::DestroySession(const FName SessionName) const
 {
-	return Sessions->DestroySession(SessionName);
+	return SessionInterface->DestroySession(SessionName);
 }
 
 void UPlushieGameInfo::OnCreateSessionComplete(const FName SessionName, const bool WasSuccessful)
@@ -151,7 +156,7 @@ void UPlushieGameInfo::OnCreateSessionComplete(const FName SessionName, const bo
 
 void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 {
-	TArray<FBlueprintSessionResult> BlueprintResults;
+	TArray<FServerSettings> FoundServers;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete bSuccess: %d"), WasSuccessful));
 
 	auto SearchResults = SessionSearch->SearchResults;
@@ -159,24 +164,28 @@ void UPlushieGameInfo::OnFindSessionsComplete(bool WasSuccessful)
 	if (SearchResults.Num() == 0)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Sessions Found")));
-		OnSessionsFoundDelegate.Broadcast(BlueprintResults, WasSuccessful);
+		OnSessionsFoundDelegate.Broadcast(FoundServers, WasSuccessful);
 		return;
 	}
 
-	// TODO: Temporary log of all session results
-	for (int32 SearchIdx = 0; SearchIdx < SearchResults.Num(); SearchIdx++)
-		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Session Number: %d | Sessionname: %s "), SearchIdx + 1, *(SessionSearch->SearchResults[SearchIdx].Session.OwningUserName)));
-
 	// Convert to blueprint session result
-	for (auto& SearchResult : SearchResults)
+	for (const auto& SearchResult : SearchResults)
 	{
-		FBlueprintSessionResult Result;
-		Result.OnlineResult = SearchResult;
-		BlueprintResults.Add(Result);
+		FServerSettings FoundSettings;
+
+		FBlueprintSessionResult ConvertedResult;
+		ConvertedResult.OnlineResult = SearchResult;
+		FoundSettings.Session = ConvertedResult;
+
+		FoundSettings.Owner = SearchResult.Session.OwningUserName;
+		SearchResult.Session.SessionSettings.Get("SERVER_NAME", FoundSettings.Name);
+		SearchResult.Session.SessionSettings.Get("SERVER_MAP", FoundSettings.Map);
+
+		FoundServers.Add(FoundSettings);
 	}
 
 	// Broadcast for blueprints
-	OnSessionsFoundDelegate.Broadcast(BlueprintResults, WasSuccessful);
+	OnSessionsFoundDelegate.Broadcast(FoundServers, WasSuccessful);
 }
 
 void UPlushieGameInfo::OnJoinSessionComplete(const FName SessionName, const EOnJoinSessionCompleteResult::Type Result)
@@ -196,7 +205,7 @@ void UPlushieGameInfo::OnJoinSessionComplete(const FName SessionName, const EOnJ
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
 	FString ConnectString = "";
-	Sessions->GetResolvedConnectString(SessionName, ConnectString);
+	SessionInterface->GetResolvedConnectString(SessionName, ConnectString);
 	if (ConnectString.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to get connection information from client!"));

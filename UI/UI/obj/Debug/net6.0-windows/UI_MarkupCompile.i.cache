@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\Kyle\Documents\Unreal Projects\PlushGame\UI\UI\App.xaml
-61171186398
+71809647390
 
 4-1820442169
 196-1766320093
-GUI\HostMenu\HostMenuUI.xaml;GUI\MainMenu\MainMenuUI.xaml;GUI\ServerMenu\ServerMenuUI.xaml;GUI\SettingsMenu\SettingsMenuUI.xaml;KylesTemplate.xaml;Resources.xaml;
+KylesTemplate.xaml;UI\GUI\HostMenu\HostMenuUI.xaml;UI\GUI\MainMenu\MainMenuUI.xaml;UI\GUI\ServerMenu\ServerMenuUI.xaml;UI\GUI\SettingsMenu\SettingsMenuUI.xaml;UI\Resources.base.xaml;UI\Resources.xaml;
 
-True
+False
 

@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Interfaces/OnlineSessionInterface.h"
+#include <OnlineSubsystemUtils/Classes/FindSessionsCallbackProxy.h>
 #include "ServerSettings.generated.h"
 
 // Server settings replicated to all clients
@@ -10,19 +12,19 @@ USTRUCT(BlueprintType)
 struct FServerSettings
 {
 	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite)
-	FName Name;
 		
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
+	FString Name;
+	
+	UPROPERTY(BlueprintReadOnly)
+	FString Owner;
+		
+	UPROPERTY(BlueprintReadOnly)
 	FString Password;
 		
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
 	FString Map;
-		
-	UPROPERTY(BlueprintReadWrite)
-	int MaxPlayers;
-		
-	UPROPERTY(BlueprintReadWrite)
-	int CurrentPlayers;
+
+	UPROPERTY(BlueprintReadOnly)
+	FBlueprintSessionResult Session;
 };

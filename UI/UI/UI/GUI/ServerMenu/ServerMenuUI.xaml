@@ -77,6 +77,7 @@
             <ListView Name="lvServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Servers}" SelectionMode="Single" SelectedItem="{Binding SelectedServer}">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="Server Owner" Width="200" DisplayMemberBinding="{Binding Owner}" />
                         <GridViewColumn Header="Server Name" Width="400" DisplayMemberBinding="{Binding Name}" />
                         <GridViewColumn Header="Players" Width="100" DisplayMemberBinding="{Binding Players}" />
                         <GridViewColumn Header="Ping" Width="100" DisplayMemberBinding="{Binding Ping}" />

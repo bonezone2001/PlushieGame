@@ -16,6 +16,9 @@
     <Page Update="GUI\SettingsMenu\SettingsMenuUI.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Resources.base.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources.xaml">
       <SubType>Designer</SubType>
     </Page>
