@@ -94,9 +94,9 @@ bool UPlushieGameInfo::LaunchLobby(FName SessionName, FString MapName, int32 Max
 	{
 		SessionSettings.bUsesPresence = true;
 		SessionSettings.bIsLANMatch = false;
-		SessionSettings.bUseLobbiesIfAvailable = true;
 	}
 	SessionSettings.bShouldAdvertise = true;
+	SessionSettings.bUseLobbiesIfAvailable = true;
 	SessionSettings.NumPublicConnections = MaxNumPlayers;
 
 	// Server settings
