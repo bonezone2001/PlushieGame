@@ -145,8 +145,8 @@ void UPlushieGameInfo::OnCreateSessionComplete(const FName SessionName, const bo
 		OnSessionCreatedDelegate.Broadcast(SessionName, WasSuccessful);
 		return;
 	}
-	
-	GetWorld()->ServerTravel("/Game/Levels/Lobby?listen");
+
+	GetWorld()->ServerTravel("/Game/Levels/" + ServerSettings.Map + "?listen");
 	// Note: marking session as "In progress" requires:
 	// Sessions->StartSession(SessionName);
 
