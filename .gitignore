@@ -1,6 +1,10 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Rider
+Plugins/Developer/RiderLink/
+.idea/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -77,6 +81,6 @@ DerivedDataCache/*
 !UI/*
 
 # However, ignore the typical stuff in there too
-UI/obj/
-UI/bin/
+UI/UI/obj/
+UI/UI/bin/
 UI/.vs/

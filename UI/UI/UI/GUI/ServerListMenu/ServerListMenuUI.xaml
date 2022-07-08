@@ -1,0 +1,94 @@
+﻿<Page x:Class="UI.GUI.ServerListMenuUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:local="clr-namespace:UI.GUI"
+        d:DesignHeight="450" d:DesignWidth="800"
+        Focusable="True">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="boolvisconverter"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="800*"/>
+            <RowDefinition Height="110*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="900*"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="BackButton" Grid.Column="0" Content="BACK" Margin="60,0,0,0" Command="{Binding BackCommand}" RenderTransformOrigin="0.5,0.5">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseEnter">
+                        <noesis:SetFocusAction/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="GotFocus">
+                        <b:PlaySoundAction Source="/Sounds/Menu/AudioSlide.wav" Volume="0.2"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="Click">
+                        <b:PlaySoundAction Source="/Sounds/Menu/AudioClick.wav" Volume="0.3"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <Button x:Name="JoinButton" Grid.Column="1" Content="JOIN GAME" Margin="60,0,0,0" Command="{Binding JoinCommand}" RenderTransformOrigin="0.5,0.5">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseEnter">
+                        <noesis:SetFocusAction/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="GotFocus">
+                        <b:PlaySoundAction Source="/Sounds/Menu/AudioSlide.wav" Volume="0.2"/>
+                    </b:EventTrigger>
+                    <b:EventTrigger EventName="Click">
+                        <b:PlaySoundAction Source="/Sounds/Menu/AudioClick.wav" Volume="0.3"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+        </Grid>
+        
+        <Grid Grid.Column="1" Grid.Row="1" Background="#7F000000">
+            <ListView Name="lvServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Servers}" SelectionMode="Single" SelectedItem="{Binding SelectedServer}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Server Owner" Width="200" DisplayMemberBinding="{Binding Owner}" />
+                        <GridViewColumn Header="Server Name" Width="400" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Players" Width="100" DisplayMemberBinding="{Binding Players}" />
+                        <GridViewColumn Header="Ping" Width="100" DisplayMemberBinding="{Binding Ping}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <!-- Loading -->
+        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="30" HorizontalAlignment="Center" Visibility="{Binding IsSearching, Converter={StaticResource boolvisconverter}}" Foreground="Black">
+            Searching for sessions...
+        </TextBlock>
+    </Grid>
+</Page>
