@@ -19,10 +19,12 @@ APlushPawn::APlushPawn(const FObjectInitializer& ObjectInitializer)
 	// Root component is the mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	//Mesh->SetSimulatePhysics(false);
-	Mesh->SetMassOverrideInKg(NAME_None, 0.5f, true);
+	Mesh->BodyInstance.COMNudge = FVector(0.0f, 0.0f, -25.0f);
+	Mesh->BodyInstance.SetMassOverride(0.5f, true);
 	Mesh->SetLinearDamping(0.1f);
 	Mesh->SetAngularDamping(0.1f);
-	Mesh->SetCenterOfMass(FVector(0.0f, 0.0f, -25.0f));
+	// Set center of mass inside of constructor
+	
 	RootComponent = Mesh;
 
 	// Setup components

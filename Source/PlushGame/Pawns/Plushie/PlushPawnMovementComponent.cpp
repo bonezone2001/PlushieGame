@@ -5,7 +5,7 @@
 
 UPlushPawnMovementComponent::UPlushPawnMovementComponent(const FObjectInitializer& ObjectInitializer)
 {
-	SetState(EPlushState::Idle);
+	PawnState = EPlushState::Idle;
 	ChargeMultiplier = 1.f;
 	Charge = 0.f;
 	Cooldown = 0.f;

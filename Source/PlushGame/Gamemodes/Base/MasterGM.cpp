@@ -3,7 +3,6 @@
 #include "EngineUtils.h"
 #include "MasterGS.h"
 #include "MasterPC.h"
-#include "Engine/PlayerStartPIE.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -16,7 +15,7 @@ AMasterGM::AMasterGM()
 	// Defaults
 	bUsesCountdown = false;
 	CountdownTime = 10;
-	NeededPlayers = 1;
+	NeededPlayers = 2;
 }
 
 void AMasterGM::PostLogin(APlayerController* NewPlayer)
