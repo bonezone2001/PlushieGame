@@ -69,10 +69,9 @@ void AMasterGM::StartCountdown()
 	GetGameState<AMasterGS>()->Countdown = CountdownTime;
 	GetWorldTimerManager().SetTimer(CountdownTimerHandle, [&]{
 		auto& Countdown = GetGameState<AMasterGS>()->Countdown;
+		Countdown--;
 		if (Countdown <= 0)
 			EndCountdown();
-		else
-			GetGameState<AMasterGS>()->Countdown--;
 	}, 1.0f, true);
 
 	// Tell everyone that the countdown has started
@@ -86,6 +85,6 @@ void AMasterGM::EndCountdown()
 	GetGameState<AMasterGS>()->Countdown = 0;
 	
 	// Tell everyone that the countdown has ended
-	for (auto& Player : Players)
+	for (const auto& Player : Players)
 		Player->CountdownEnded();
 }
